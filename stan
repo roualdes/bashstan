@@ -6,9 +6,8 @@
 # See LICENSE in root of this project.
 
 cwd="$(pwd)"
-# Assumes stanflow cloned to $HOME, change if not the case
-repo="$HOME/stan"
-cmdstan="$HOME/cmdstan" # "$repo/src/stanflow/cmdstan" #
+# Assumes cmdstan cloned to $HOME, change if not the case
+cmdstan="$HOME/cmdstan"
 
 # defaults
 c=4                             # chains
@@ -17,15 +16,13 @@ d=0.8                           # adapt_delta
 w=1000                          # num_warmup
 N=2000                          # num_samples
 s=$RANDOM                       # random seed
-m="model"                      # model directory
-o="output"                     # output directory
-e="diag_e"                     # metric
+m="model"                       # model directory
+o="output"                      # output directory
+e="diag_e"                      # metric
 
 # TODO fill in the rest of these optional flags
 # TODO add help message
-# TODO a note about self-referential commands: make-stan, update-stan
 # TODO a note about spaces in program names
-# TODO double check arguments to make-stan
 
 update_repos() {
     git -C "$1" checkout develop
@@ -87,7 +84,7 @@ then
     mkdir -p "$output_dir"
     model_dir="${target}_${m}"
 
-    seq -w 1 "$c" | parallel --line-buffer command "$model_dir/$target" method=sample algorithm=hmc metric="$e" num_warmup="$w" num_samples="$N" adapt delta="$d" algorithm=hmc engine=nuts max_depth="$t" random seed="$s" id={} data file="$2" output file="$output_dir/samples{}.csv" > /dev/null
+    seq -w 1 "$c" | parallel --line-buffer command "$model_dir/$target" method=sample algorithm=hmc metric="$e" num_warmup="$w" num_samples="$N" adapt delta="$d" algorithm=hmc engine=nuts max_depth="$t" random seed="$s" id={} data file="$2" output file="$output_dir/samples{}.csv"
 
 
 ############################ FIXED_PARAM #############################

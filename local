@@ -1,0 +1,2 @@
+CXX = clang++
+CXXFLAGS = -march=native
